@@ -480,6 +480,32 @@ namespace GroupDocs.AssemblyExamples.BusinessLayer
             Debug.Assert(table.Columns[1].Name == "Column2");
             return table;
         }
+
+        /// <summary>
+        /// Import spread sheet to html document
+        /// </summary>
+        /// <returns></returns>
+        public static GroupDocs.Assembly.Data.DocumentTable ImportingSpreadsheetToHtml()
+        {
+
+            // Do not extract column names from the first row, so that the first row to be treated as a data row.
+            // Limit the largest row index, so that only the first four data rows to be loaded.
+            DocumentTableOptions options = new DocumentTableOptions();
+            //options.MaxRowIndex = 3;
+
+            // Use data of the _second_ table in the document.
+            DocumentTable table = new DocumentTable(excelDataFile, 0);
+
+            // Check column count and names.
+            Debug.Assert(table.Columns.Count == 3);
+
+            // NOTE: Default column names are used, because we do not extract the names from the first row.
+            Debug.Assert(table.Columns[0].Name == "A");
+            Debug.Assert(table.Columns[1].Name == "B");
+            Debug.Assert(table.Columns[2].Name == "C");
+            return table;
+        }
+
         /// <summary>
         /// Presentation file data source
         /// </summary>
@@ -503,6 +529,123 @@ namespace GroupDocs.AssemblyExamples.BusinessLayer
             Debug.Assert(table.Columns[1].Name == "Column2");
             return table;
         }
+
+        /// <summary>
+        /// Creates an Email data source object
+        /// </summary>
+        /// <param name="fileName">Name of the template file</param>
+        /// <param name="dataSource">data source</param>
+        /// <returns></returns>
+
+        public static object[] EmailDataSourceObject(string fileName, object dataSource)
+        {
+            //ExStart:EmailDataSourceObject
+            object[] dataSources;
+            string extension = Path.GetExtension(fileName);
+
+            if ((extension == ".msg") || (extension == ".eml"))
+            {
+                List<string> recipients = new List<string>();
+                recipients.Add("Named Recipient <named@example.com>");
+                recipients.Add("unnamed@example.com");
+
+                dataSources = new object[]
+                {
+                    dataSource,                  
+                    "Example Sender <sender@example.com>",
+                    recipients,
+                    "cc@example.com",
+                    Path.GetFileNameWithoutExtension(fileName)
+                };
+
+            }
+            else
+            {
+                dataSources = new object[] { dataSource };
+            }
+            return dataSources;
+            //ExEnd:EmailDataSourceObject
+        }
+        public static object[] EmailDataSourceObject(string fileName, object dataSource, string title)
+        {
+            //ExStart:EmailDataSourceObject
+            object[] dataSources;
+            string extension = Path.GetExtension(fileName);
+
+            if ((extension == ".msg") || (extension == ".eml"))
+            {
+                List<string> recipients = new List<string>();
+                recipients.Add("Named Recipient <named@example.com>");
+                recipients.Add("unnamed@example.com");
+
+                dataSources = new object[]
+                {
+                    dataSource,
+
+                    "Example Sender <sender@example.com>",
+                    recipients,
+                    "cc@example.com",
+                    Path.GetFileNameWithoutExtension(fileName),
+                    title,
+                };
+
+            }
+            else
+            {
+                dataSources = new object[] { dataSource };
+            }
+            return dataSources;
+            //ExEnd:EmailDataSourceObject
+        }
+        public static string[] EmailDataSourceName(string extension, string name)
+        {
+            //ExStart:EmailDataSourceName
+            string[] dataSourceNames;
+            if ((extension == ".msg") || (extension == ".eml"))
+            {
+                dataSourceNames = new string[]
+              {
+                    name,
+                    "sender",
+                    "recipients",
+                    "cc",
+                    "subject",
+              };
+
+            }
+            else
+            {
+                dataSourceNames = new string[] { };
+            }
+            return dataSourceNames;
+            //ExEnd:EmailDataSourceName
+        }
+        public static string[] EmailDataSourceName(string extension, string name,string title)
+        {
+            //ExStart:EmailDataSourceName
+            string[] dataSourceNames;
+            if ((extension == ".msg") || (extension == ".eml"))
+            {
+                dataSourceNames = new string[]
+              {
+                    name,
+                    "sender",
+                    "recipients",
+                    "cc",
+                    "subject",
+                    title,
+              };
+
+            }
+            else
+            {
+                dataSourceNames = new string[] { };
+            }
+            return dataSourceNames;
+            //ExEnd:EmailDataSourceName
+        }
+
+
     }
     //ExEnd:DataLayer
     #endregion DataLayer
